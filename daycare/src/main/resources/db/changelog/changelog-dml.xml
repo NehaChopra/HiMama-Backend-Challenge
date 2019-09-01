@@ -1,0 +1,24 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog 
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet id="sprint1-1.02" author="vishakha">
+		<preConditions onFail="MARK_RAN"
+			onFailMessage="Headers for settlement are already inserted">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*) FROM
+				himama.hm_user;
+			</sqlCheck>
+		</preConditions>
+		<sql>
+			INSERT INTO hm_user (username,password,phone,email)
+			VALUES ('Neha
+			Chopra','$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi','9876543210','neha.chopra@himama.com')
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>

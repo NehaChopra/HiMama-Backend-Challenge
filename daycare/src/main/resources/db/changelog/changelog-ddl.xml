@@ -1,0 +1,80 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog 
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet id="create_hm_user_table" author="nchopra">
+		<preConditions onFail="MARK_RAN"
+			onFailMessage="hm_user Table is already present">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*)
+				FROM
+				INFORMATION_SCHEMA.TABLES
+				WHERE TABLE_SCHEMA='himama' and
+				TABLE_NAME
+				='hm_user';
+			</sqlCheck>
+		</preConditions>
+		<sql>
+			CREATE TABLE `hm_user` (
+			`id` int(11) unsigned NOT NULL
+			AUTO_INCREMENT,
+			`username` varchar(255) NOT NULL DEFAULT '',
+			`password` varchar(255)
+			NOT NULL DEFAULT '',
+			`phone` varchar(255) NOT
+			NULL DEFAULT '',
+			`email`
+			varchar(255) NOT NULL DEFAULT '',
+			`enabled`
+			tinyint(1) NOT NULL DEFAULT 1,
+			`created_on` timestamp NOT NULL
+			DEFAULT
+			current_timestamp(),
+			`modified_on` timestamp NOT NULL DEFAULT
+			current_timestamp(),
+			`last_password_set_on` timestamp NOT NULL DEFAULT
+			current_timestamp(),
+			PRIMARY KEY (`id`),
+			KEY `email_indx` (`email`)
+			)
+		</sql>
+	</changeSet>
+
+	<changeSet id="create_hm_event_table" author="nchopra">
+		<preConditions onFail="MARK_RAN"
+			onFailMessage="hm_event Table is already present">
+			<sqlCheck expectedResult="0">
+				SELECT COUNT(*)
+				FROM
+				INFORMATION_SCHEMA.TABLES
+				WHERE TABLE_SCHEMA='himama' and
+				TABLE_NAME
+				='hm_event';
+			</sqlCheck>
+		</preConditions>
+		<sql>
+			CREATE TABLE `hm_event` (
+			`id` int(11) unsigned NOT NULL
+			AUTO_INCREMENT,
+			`event_type` ENUM('CLOCK-IN','CLOCK-OUT') NOT NULL,
+			`event_timestamp`
+			timestamp NOT NULL DEFAULT current_timestamp(),
+			`user_id` int(11)
+			unsigned NOT NULL DEFAULT 0,
+			`created_on` timestamp
+			NOT NULL DEFAULT
+			current_timestamp(),
+			`modified_on` timestamp NOT NULL
+			DEFAULT
+			current_timestamp(),
+			PRIMARY KEY (`id`),
+			KEY `user_id_indx`
+			(`user_id`)
+			)
+		</sql>
+	</changeSet>
+</databaseChangeLog>
